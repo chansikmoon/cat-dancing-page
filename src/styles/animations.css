@@ -1,0 +1,111 @@
+/* ===== 고양이 댄싱 애니메이션 ===== */
+
+/* 메인 댄스: 좌우 흔들기 + 점프 조합 */
+@keyframes dance {
+  0%   { transform: translateY(0)    rotate(-8deg) scale(1);    }
+  12%  { transform: translateY(-18px) rotate(0deg) scale(1.05); }
+  25%  { transform: translateY(-8px)  rotate(8deg) scale(1.02); }
+  37%  { transform: translateY(-22px) rotate(3deg) scale(1.08); }
+  50%  { transform: translateY(0)    rotate(-5deg) scale(1);    }
+  62%  { transform: translateY(-12px) rotate(-10deg) scale(1.04); }
+  75%  { transform: translateY(-5px)  rotate(6deg) scale(1.02); }
+  87%  { transform: translateY(-20px) rotate(-3deg) scale(1.06); }
+  100% { transform: translateY(0)    rotate(-8deg) scale(1);    }
+}
+
+/* 그림자 애니메이션 */
+@keyframes shadow-pulse {
+  0%   { transform: scaleX(1)    scaleY(1);    opacity: 0.35; }
+  37%  { transform: scaleX(1.15) scaleY(0.7);  opacity: 0.2;  }
+  50%  { transform: scaleX(1)    scaleY(1);    opacity: 0.35; }
+  87%  { transform: scaleX(1.12) scaleY(0.7);  opacity: 0.2;  }
+  100% { transform: scaleX(1)    scaleY(1);    opacity: 0.35; }
+}
+
+/* 음표 떠오르기 */
+@keyframes note-float {
+  0%   { opacity: 0;   transform: translateY(0)   rotate(0deg);   }
+  20%  { opacity: 1;                                               }
+  80%  { opacity: 0.8;                                             }
+  100% { opacity: 0;   transform: translateY(-80px) rotate(20deg); }
+}
+
+/* ===== 스테이지 ===== */
+.cat-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 320px;
+}
+
+/* ===== 그림자 ===== */
+.cat-shadow {
+  width: 120px;
+  height: 22px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: shadow-pulse var(--dance-duration, 1s) ease-in-out infinite;
+  margin-top: 4px;
+  order: 2;
+}
+
+/* ===== 고양이 래퍼 ===== */
+.cat-wrapper {
+  animation: dance var(--dance-duration, 1s) ease-in-out infinite;
+  will-change: transform;
+  cursor: pointer;
+  order: 1;
+}
+
+.cat-wrapper:active {
+  filter: brightness(1.1);
+}
+
+/* ===== 고양이 이미지 ===== */
+.cat-image {
+  width: 180px;
+  height: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+}
+
+/* ===== 음표 ===== */
+.music-notes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.note {
+  position: absolute;
+  font-size: 1.6rem;
+  color: #ff85a1;
+  animation: note-float calc(var(--dance-duration, 1s) * 2) ease-in-out infinite;
+  text-shadow: 0 2px 6px rgba(255, 133, 161, 0.4);
+}
+
+.note-1 { left: 12%;  bottom: 60%; animation-delay: 0s;                                           }
+.note-2 { right: 10%; bottom: 65%; animation-delay: calc(var(--dance-duration, 1s) * 0.5);        }
+.note-3 { left: 5%;   bottom: 75%; animation-delay: calc(var(--dance-duration, 1s) * 1.0); color: #a78bfa; }
+.note-4 { right: 5%;  bottom: 55%; animation-delay: calc(var(--dance-duration, 1s) * 1.5); color: #60d0f0; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 480px) {
+  .cat-stage  { height: 240px; }
+  .cat-image  { width: 130px; }
+  .cat-shadow { width: 88px; height: 16px; }
+  .note       { font-size: 1.2rem; }
+}
+
+@media (min-width: 768px) {
+  .cat-stage  { height: 380px; }
+  .cat-image  { width: 220px; }
+  .cat-shadow { width: 150px; height: 28px; }
+}
